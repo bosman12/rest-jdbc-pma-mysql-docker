@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public class UserDAO {
-    private final String jdbcURL = "jdbc:mysql://192.168.99.100:32768/summerPractiseBd";
+    private final String jdbcURL = "jdbc:mysql://localhost:3306/summerPractiseBd";
     private final String jdbcUsername = "root";
     private final String jdbcPassword = "12345";
 
@@ -20,7 +20,7 @@ public class UserDAO {
     protected Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver" );
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

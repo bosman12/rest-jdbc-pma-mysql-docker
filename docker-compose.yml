@@ -1,24 +1,33 @@
-version: '3.1'
+version: '2'
 
 services:
   api:
     build: ./api
-    restart: always
+    restart: on-failure
     depends_on:
-      - mysql
+      wait-for-db:
+        condition: service_completed_successfully
+    environment:
+      - TZ=Europe/Moscow
     ports:
-      - "5555:5000"
+      - "8089:8080"
 
-  mysql:
+  db:
     image: mysql
     restart: always
-    ports:
-      - "3306"
+    ports: [ '3306:3306' ]
     environment:
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: user
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=root
     volumes:
       - mysql_data:/var/lib/mysql
+
+  wait-for-db:
+    image: atkrad/wait4x
+    depends_on:
+      - db
+    command: tcp db:3306 -t 30s -i 250ms
+
 
   phpmyadmin:
     image: phpmyadmin
@@ -26,7 +35,12 @@ services:
     ports:
       - "8080:80"
     environment:
-      - PMA_ARBITRARY=1
+      MYSQL_ROOT_PASSWORD: 12345
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: 12345
+      PMA_ARBITRARY: 1
+
 
 volumes:
   mysql_data:

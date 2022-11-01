@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:19-jdk-alpine3.16
 ARG JAR_FILE=target/forSummerPractise-0.0.1-SNAPSHOT.jar
 WORKDIR /app
 EXPOSE 5000

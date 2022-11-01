@@ -8,6 +8,8 @@ public class ForSummerPractiseApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ForSummerPractiseApplication.class, args);
+
     }
+
 
 }
